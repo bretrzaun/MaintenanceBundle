@@ -1,0 +1,3 @@
+index:
+    path:     /
+    controller: BretRZaun\MaintenanceBundle\Tests\Controller\IndexController::index

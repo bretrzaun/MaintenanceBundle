@@ -1,0 +1,33 @@
+# tests/config.yml
+
+framework:
+    test: ~
+    secret: test
+    session:
+        storage_id: session.storage.mock_file
+    router:
+        resource: "%kernel.root_dir%/tests/routing.yml"
+        strict_requirements: ~
+    assets: ~
+    default_locale: 'en'
+    translator:
+        fallbacks: ['en']
+
+# Twig Configuration
+twig:
+    cache:            false
+    debug:            "%kernel.debug%"
+    strict_variables: "%kernel.debug%"
+    paths:
+        '%kernel.root_dir%/src/Resources/views/': MaintenanceBundle
+        '%kernel.root_dir%/tests/Resources/views/': ~
+
+maintenance:
+    enabled: true
+    allowed_ip: ['10.*.*.*']
+
+services:
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        public: false       # Allows optimizing the container by removing unused services; this also means
