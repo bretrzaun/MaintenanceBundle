@@ -1,6 +1,7 @@
 <?php
 namespace BretRZaun\MaintenanceBundle\Tests;
 
+use BretRZaun\MaintenanceBundle\MaintenanceService;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use BretRZaun\MaintenanceBundle\EventListener\MaintenanceListener;
 use Symfony\Component\DependencyInjection\Container;
@@ -41,10 +42,12 @@ class MaintenanceListenerTest extends KernelTestCase
             }
         }
 
-        $listener = new MaintenanceListener($container, $twig);
+        $maintenanceService = new MaintenanceService($container->getParameterBag());
         if (isset($context['currentDate'])) {
-            $listener->setCurrentDate($context['currentDate']);
+            $maintenanceService->setCurrentDate($context['currentDate']);
         }
+
+        $listener = new MaintenanceListener($container, $twig, $maintenanceService);
         $server = [];
         if (isset($context['clientIp'])) {
           $server['REMOTE_ADDR'] = $context['clientIp'];

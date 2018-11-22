@@ -1,6 +1,7 @@
 <?php
 namespace BretRZaun\MaintenanceBundle\EventListener;
 
+use BretRZaun\MaintenanceBundle\MaintenanceService;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,17 +15,16 @@ class MaintenanceListener
      * @var Environment
      */
     private $twig;
-
     /**
-     * @var \DateTime
+     * @var MaintenanceService
      */
-    private $currentDate;
+    private $maintenanceService;
 
-    public function __construct(ContainerInterface $container, Environment $twig)
+    public function __construct(ContainerInterface $container, Environment $twig, MaintenanceService $maintenanceService)
     {
         $this->container = $container;
         $this->twig = $twig;
-        $this->setCurrentDate(new \DateTime('now'));
+        $this->maintenanceService = $maintenanceService;
     }
 
     public function onKernelRequest(GetResponseEvent $event): void
@@ -45,28 +45,8 @@ class MaintenanceListener
             return;
         }
 
-        // Manueller Schalter
-        if ($maintenance['enabled'] === false) {
-            // Datumsprüfung
-            if (isset($maintenance['from'])) {
-                $from = \DateTime::createFromFormat('d.m.Y H:i:s', $maintenance['from']);
-                if (!$from) {
-                    throw new \RuntimeException('Maintenance: invalid date format "from" (expects d.m.Y H:i:s)');
-                }
-                if ($from !== false && $from > $this->currentDate) {
-                    return;
-                }
-            } elseif (isset($maintenance['until'])) {
-                $until = \DateTime::createFromFormat('d.m.Y H:i:s', $maintenance['until']);
-                if (!$until) {
-                    throw new \RuntimeException('Maintenance: invalid date format "until" (expects d.m.Y H:i:s)');
-                }
-                if ($until === false || $this->currentDate > $until) {
-                    return;
-                }
-            } else {
-                return;
-            }
+        if (!$this->maintenanceService->isMaintenance()) {
+            return;
         }
 
         // This will detect if we are in dev environment
@@ -79,11 +59,6 @@ class MaintenanceListener
             $event->setResponse(new Response($template, 503));
             $event->stopPropagation();
         }
-    }
-
-    public function setCurrentDate(\DateTime $date): void
-    {
-        $this->currentDate = $date;
     }
 
     /**

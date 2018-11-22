@@ -13,3 +13,5 @@ services:
         class: BretRZaun\MaintenanceBundle\EventListener\MaintenanceListener
         tags:
             - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+
+    BretRZaun\MaintenanceBundle\MaintenanceService: ~
