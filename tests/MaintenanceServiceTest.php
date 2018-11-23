@@ -4,6 +4,7 @@ namespace BretRZaun\MaintenanceBundle\Tests;
 use BretRZaun\MaintenanceBundle\MaintenanceService;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\HttpFoundation\Request;
 
 class MaintenanceServiceTest extends KernelTestCase
 {
@@ -25,7 +26,14 @@ class MaintenanceServiceTest extends KernelTestCase
             $service->setCurrentDate($context['currentDate']);
         }
 
-        $this->assertEquals($maintenance, $service->isMaintenance());
+
+        if (isset($context['clientIp'])) {
+            $request = new Request([], [], [], [], [], ['REMOTE_ADDR' => $context['clientIp']]);
+        } else {
+            $request = new Request();
+        }
+
+        $this->assertEquals($maintenance, $service->isMaintenance($request));
 
     }
 
@@ -67,6 +75,24 @@ class MaintenanceServiceTest extends KernelTestCase
                 ['enabled' => false, 'until' => '16.10.2018 00:00:00'],
                 false,
                 ['currentDate' => new \DateTime('17.10.2018')]
+            ],
+            # request from ip-range
+            [
+                ['enabled' => false, 'allowed_ip' => ['10.*.*.*']],
+                false,
+                ['clientIp' => '10.0.0.1']
+            ],
+            # request outside ip-range, but maintenance no enabled
+            [
+                ['enabled' => false, 'allowed_ip' => ['10.*.*.*'], 'template' => 'foo'],
+                false,
+                ['clientIp' => '192.0.0.1']
+            ],
+            # request outside ip-range, with maintenance enabled
+            [
+                ['enabled' => true, 'allowed_ip' => ['10.*.*.*'], 'template' => 'foo'],
+                true,
+                ['clientIp' => '192.0.0.1']
             ]
         ];
     }

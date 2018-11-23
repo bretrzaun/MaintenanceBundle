@@ -2,6 +2,7 @@
 namespace BretRZaun\MaintenanceBundle;
 
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 class MaintenanceService
 {
@@ -25,16 +26,16 @@ class MaintenanceService
         $this->currentDate = $date;
     }
 
-    public function isMaintenance(): bool
+    public function isMaintenance(Request $request): bool
     {
         $maintenance = $this->parameterBag->get('maintenance');
 
-        /*// IP-Prüfung durchführen
+        // IP-Prüfung durchführen
         if (isset($maintenance['allowed_ip']) &&
-            $this->matchIp($maintenance['allowed_ip'], $event->getRequest()->getClientIp())
+            $this->matchIp($maintenance['allowed_ip'], $request->getClientIp())
         ) {
             return false;
-        }*/
+        }
 
         // Manueller Schalter
         if (!isset($maintenance['enabled']) || $maintenance['enabled'] === false) {
@@ -60,5 +61,27 @@ class MaintenanceService
             }
         }
         return true;
+    }
+
+    /**
+     * check an IP-mask (including wildcards) with an ip address
+     *
+     * @param string|array $ipmask
+     * @param string $remoteIp
+     * @return bool
+     */
+    protected function matchIp($ipmask, string $remoteIp): bool
+    {
+        if (\is_string($ipmask)) {
+            $ipmask = [$ipmask];
+        }
+        foreach ($ipmask as $entry) {
+            $pattern = '/^' . str_replace(['*', '.'], ['[0-9]{1,3}', '\.'], $entry) . '$/';
+            preg_match($pattern, $remoteIp, $matches);
+            if (\count($matches) > 0) {
+                return true;
+            }
+        }
+        return false;
     }
 }

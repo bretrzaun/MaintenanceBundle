@@ -2,6 +2,8 @@
 namespace BretRZaun\MaintenanceBundle\Twig;
 
 use BretRZaun\MaintenanceBundle\MaintenanceService;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class Extension extends \Twig\Extension\AbstractExtension
 {
@@ -10,10 +12,15 @@ class Extension extends \Twig\Extension\AbstractExtension
      */
     private $maintenanceService;
 
-    public function __construct(MaintenanceService $maintenanceService)
-    {
+    /**
+     * @var Request
+     */
+    private $requestStack;
 
+    public function __construct(MaintenanceService $maintenanceService, RequestStack $requestStack)
+    {
         $this->maintenanceService = $maintenanceService;
+        $this->requestStack = $requestStack;
     }
 
     public function getFunctions()
@@ -25,6 +32,6 @@ class Extension extends \Twig\Extension\AbstractExtension
 
     public function isMaintenance(): bool
     {
-        return $this->maintenanceService->isMaintenance();
+        return $this->maintenanceService->isMaintenance($this->requestStack->getCurrentRequest());
     }
 }

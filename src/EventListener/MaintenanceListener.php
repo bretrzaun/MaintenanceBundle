@@ -38,14 +38,7 @@ class MaintenanceListener
         }
         $maintenance = $this->container->getParameter('maintenance');
 
-        // IP-Prüfung durchführen
-        if (isset($maintenance['allowed_ip']) &&
-            $this->matchIp($maintenance['allowed_ip'], $event->getRequest()->getClientIp())
-        ) {
-            return;
-        }
-
-        if (!$this->maintenanceService->isMaintenance()) {
+        if (!$this->maintenanceService->isMaintenance($event->getRequest())) {
             return;
         }
 
@@ -54,27 +47,5 @@ class MaintenanceListener
         // We send our response with a 503 response code (service unavailable)
         $event->setResponse(new Response($template, 503));
         $event->stopPropagation();
-    }
-
-    /**
-     * check an IP-mask (including wildcards) with an ip address
-     *
-     * @param string|array $ipmask
-     * @param string $remoteIp
-     * @return bool
-     */
-    protected function matchIp($ipmask, string $remoteIp): bool
-    {
-        if (\is_string($ipmask)) {
-            $ipmask = [$ipmask];
-        }
-        foreach ($ipmask as $entry) {
-            $pattern = '/^' . str_replace(['*', '.'], ['[0-9]{1,3}', '\.'], $entry) . '$/';
-            preg_match($pattern, $remoteIp, $matches);
-            if (\count($matches) > 0) {
-                return true;
-            }
-        }
-        return false;
     }
 }

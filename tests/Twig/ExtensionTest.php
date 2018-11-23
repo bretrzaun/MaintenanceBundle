@@ -4,6 +4,8 @@ namespace BretRZaun\MaintenanceBundle\Tests;
 use BretRZaun\MaintenanceBundle\MaintenanceService;
 use BretRZaun\MaintenanceBundle\Twig\Extension;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class ExtensionTest extends TestCase
 {
@@ -19,7 +21,9 @@ class ExtensionTest extends TestCase
             ->method('isMaintenance')
             ->willReturn(true);
 
-        $extension = new Extension($maintenanceService);
+        $requestStack = new RequestStack();
+        $requestStack->push(new Request());
+        $extension = new Extension($maintenanceService, $requestStack);
         $this->assertTrue($extension->isMaintenance());
     }
 }
