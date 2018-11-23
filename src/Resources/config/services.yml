@@ -15,3 +15,7 @@ services:
             - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
 
     BretRZaun\MaintenanceBundle\MaintenanceService: ~
+
+    BretRZaun\MaintenanceBundle\Twig\Extension:
+        tags:
+        - { name: twig.extension}
