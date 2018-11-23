@@ -38,14 +38,13 @@ class MaintenanceListener
         }
         $maintenance = $this->container->getParameter('maintenance');
 
-        if (!$this->maintenanceService->isMaintenance($event->getRequest())) {
-            return;
+        if ($this->maintenanceService->isMaintenance() &&
+            !$this->maintenanceService->isInternal($event->getRequest())) {
+            $template = $this->twig->render($maintenance['template']);
+
+            // We send our response with a 503 response code (service unavailable)
+            $event->setResponse(new Response($template, 503));
+            $event->stopPropagation();
         }
-
-        $template = $this->twig->render($maintenance['template']);
-
-        // We send our response with a 503 response code (service unavailable)
-        $event->setResponse(new Response($template, 503));
-        $event->stopPropagation();
     }
 }

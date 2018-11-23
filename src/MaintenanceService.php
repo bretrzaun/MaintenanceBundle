@@ -26,17 +26,9 @@ class MaintenanceService
         $this->currentDate = $date;
     }
 
-    public function isMaintenance(Request $request = null): bool
+    public function isMaintenance(): bool
     {
         $maintenance = $this->parameterBag->get('maintenance');
-
-        // IP-Prüfung durchführen
-        if ($request &&
-            isset($maintenance['allowed_ip']) &&
-            $this->matchIp($maintenance['allowed_ip'], $request->getClientIp())
-        ) {
-            return false;
-        }
 
         // Manueller Schalter
         if (!isset($maintenance['enabled']) || $maintenance['enabled'] === false) {
@@ -62,6 +54,20 @@ class MaintenanceService
             }
         }
         return true;
+    }
+
+    /**
+     * IP-Prüfung durchführen
+     *
+     * @param Request|null $request
+     * @return bool
+     */
+    public function isInternal(Request $request = null): bool
+    {
+        $maintenance = $this->parameterBag->get('maintenance');
+        return $request &&
+            isset($maintenance['allowed_ip']) &&
+            $this->matchIp($maintenance['allowed_ip'], $request->getClientIp());
     }
 
     /**

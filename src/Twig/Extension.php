@@ -26,17 +26,20 @@ class Extension extends \Twig\Extension\AbstractExtension
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('is_maintenance', [$this, 'isMaintenance'])
+            new \Twig_SimpleFunction('maintenance_mode', [$this, 'maintenanceMode']),
+            new \Twig_SimpleFunction('maintenance_mode_allowed', [$this, 'maintenanceModeAllowed'])
         ];
     }
 
-    public function isMaintenance($useRequest = true): bool
+    public function maintenanceMode(): bool
     {
-        if ($useRequest) {
-            $request = $this->requestStack->getCurrentRequest();
-        } else {
-            $request = null;
-        }
-        return $this->maintenanceService->isMaintenance($request);
+        return $this->maintenanceService->isMaintenance() &&
+            !$this->maintenanceService->isInternal($this->requestStack->getCurrentRequest());
+    }
+
+    public function maintenanceModeAllowed()
+    {
+        return $this->maintenanceService->isMaintenance() &&
+            $this->maintenanceService->isInternal($this->requestStack->getCurrentRequest());
     }
 }

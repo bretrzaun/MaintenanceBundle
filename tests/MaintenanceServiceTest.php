@@ -33,8 +33,11 @@ class MaintenanceServiceTest extends KernelTestCase
             $request = new Request();
         }
 
-        $this->assertEquals($maintenance, $service->isMaintenance($request));
-
+        $result = $service->isMaintenance();
+        if (isset($context['clientIp'])) {
+            $result &= !$service->isInternal($request);
+        }
+        $this->assertEquals($maintenance, $result);
     }
 
     public function parameterProvider(): array
