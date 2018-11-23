@@ -27,7 +27,7 @@ class Configuration implements ConfigurationInterface
             ->children()
                 ->booleanNode('enabled')->defaultFalse()->end()
                 ->scalarNode('from')->defaultNull()->end()
-                ->scalarNode('to')->defaultNull()->end()
+                ->scalarNode('until')->defaultNull()->end()
                 ->arrayNode('allowed_ip')
                     ->prototype('scalar')
                     ->end()

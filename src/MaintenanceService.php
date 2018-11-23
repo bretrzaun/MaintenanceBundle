@@ -10,7 +10,7 @@ class MaintenanceService
      */
     private $currentDate;
     /**
-     * @var ParameterBag
+     * @var ParameterBagInterface
      */
     private $parameterBag;
 
