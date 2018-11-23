@@ -49,16 +49,11 @@ class MaintenanceListener
             return;
         }
 
-        // This will detect if we are in dev environment
-        $debug = $this->container->get( 'kernel')->getEnvironment() === 'dev';
+        $template = $this->twig->render($maintenance['template']);
 
-        if ($maintenance && !$debug) {
-            $template = $this->twig->render($maintenance['template']);
-
-            // We send our response with a 503 response code (service unavailable)
-            $event->setResponse(new Response($template, 503));
-            $event->stopPropagation();
-        }
+        // We send our response with a 503 response code (service unavailable)
+        $event->setResponse(new Response($template, 503));
+        $event->stopPropagation();
     }
 
     /**
