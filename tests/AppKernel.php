@@ -1,4 +1,5 @@
 <?php
+namespace BretRZaun\MaintenanceBundle\Tests;
 // tests/AppKernel.php (you can define it in a subdirectory /Fixtures if you prefer)
 
 use BretRZaun\MaintenanceBundle\MaintenanceBundle;
@@ -11,8 +12,8 @@ class AppKernel extends Kernel
     {
         $bundles = array();
         if ('test' === $this->getEnvironment()) {
-            $bundles[] = new Symfony\Bundle\FrameworkBundle\FrameworkBundle();
-            $bundles[] = new Symfony\Bundle\TwigBundle\TwigBundle();
+            $bundles[] = new \Symfony\Bundle\FrameworkBundle\FrameworkBundle();
+            $bundles[] = new \Symfony\Bundle\TwigBundle\TwigBundle();
             $bundles[] = new MaintenanceBundle();
         }
         return $bundles;

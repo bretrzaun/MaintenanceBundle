@@ -25,7 +25,7 @@ class MaintenanceListenerTest extends KernelTestCase
      * @param array $context
      * @dataProvider parameterProvider
      */
-    public function testParameters($parameters, bool $maintenance, array $context = []): void
+    public function testListener($parameters, bool $maintenance, array $context = []): void
     {
         $container = new Container();
         $container->set('kernel', self::$kernel);

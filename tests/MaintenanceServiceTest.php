@@ -52,13 +52,13 @@ class MaintenanceServiceTest extends KernelTestCase
             ],
             # maintenance since yesterday
             [
-                ['enabled' => false, 'from' => '16.10.2018 00:00:00', 'template' => 'foo'],
+                ['enabled' => false, 'from' => '16.10.2018 00:00:00'],
                 true,
                 ['currentDate' => new \DateTime('17.10.2018')]
             ],
             # maintenance until tomorrow
             [
-                ['enabled' => false, 'until' => '18.10.2018 00:00:00', 'template' => 'foo'],
+                ['enabled' => false, 'until' => '18.10.2018 00:00:00'],
                 true,
                 ['currentDate' => new \DateTime('17.10.2018')]
             ],

@@ -15,7 +15,7 @@
 
     <php>
         <ini name="error_reporting" value="-1" />
-        <env name="KERNEL_CLASS" value="AppKernel" />
+        <env name="KERNEL_CLASS" value="BretRZaun\MaintenanceBundle\Tests\AppKernel" />
         <env name="APP_ENV" value="test" />
         <env name="APP_DEBUG" value="1" />
     </php>
