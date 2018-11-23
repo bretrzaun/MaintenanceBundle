@@ -26,12 +26,13 @@ class MaintenanceService
         $this->currentDate = $date;
     }
 
-    public function isMaintenance(Request $request): bool
+    public function isMaintenance(Request $request = null): bool
     {
         $maintenance = $this->parameterBag->get('maintenance');
 
         // IP-Prüfung durchführen
-        if (isset($maintenance['allowed_ip']) &&
+        if ($request &&
+            isset($maintenance['allowed_ip']) &&
             $this->matchIp($maintenance['allowed_ip'], $request->getClientIp())
         ) {
             return false;
@@ -67,11 +68,14 @@ class MaintenanceService
      * check an IP-mask (including wildcards) with an ip address
      *
      * @param string|array $ipmask
-     * @param string $remoteIp
+     * @param string|null $remoteIp
      * @return bool
      */
-    protected function matchIp($ipmask, string $remoteIp): bool
+    protected function matchIp($ipmask, $remoteIp): bool
     {
+        if ($remoteIp === null) {
+            return false;
+        }
         if (\is_string($ipmask)) {
             $ipmask = [$ipmask];
         }

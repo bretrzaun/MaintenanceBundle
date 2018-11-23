@@ -30,8 +30,13 @@ class Extension extends \Twig\Extension\AbstractExtension
         ];
     }
 
-    public function isMaintenance(): bool
+    public function isMaintenance($useRequest = true): bool
     {
-        return $this->maintenanceService->isMaintenance($this->requestStack->getCurrentRequest());
+        if ($useRequest) {
+            $request = $this->requestStack->getCurrentRequest();
+        } else {
+            $request = null;
+        }
+        return $this->maintenanceService->isMaintenance($request);
     }
 }
