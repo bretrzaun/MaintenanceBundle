@@ -1,5 +1,7 @@
 # Maintenance Bundle
 
+[![Build Status](https://travis-ci.org/bretrzaun/MaintenanceBundle.svg?branch=master)](https://travis-ci.org/bretrzaun/MaintenanceBundle)
+
 ## Installation
 
 ```
