@@ -13,7 +13,7 @@ use Twig\Environment;
 
 class MaintenanceListenerTest extends KernelTestCase
 {
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         static::bootKernel();
