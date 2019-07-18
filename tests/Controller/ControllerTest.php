@@ -12,6 +12,10 @@ class ControllerTest extends WebTestCase
         $client->request('GET', '/');
         $this->assertEquals(Response::HTTP_SERVICE_UNAVAILABLE, $client->getResponse()->getStatusCode());
         $content = $client->getResponse()->getContent();
-        $this->assertContains('<h1>Maintenance</h1>', $content);
+        if (method_exists($this, 'assertStringContainsString')) {
+            $this->assertStringContainsString('<h1>Maintenance</h1>', $content);
+        } else {
+            $this->assertContains('<h1>Maintenance</h1>', $content);
+        }
     }
 }
