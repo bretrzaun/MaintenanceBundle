@@ -30,10 +30,9 @@
     </filter>
 
     <logging>
-        <log type="coverage-html" target="tests/report" charset="UTF-8"
-             yui="true" highlight="false"
+        <log type="coverage-html" target="tests/report"
              lowUpperBound="35" highLowerBound="70"/>
         <log type="coverage-clover" target="tests/coverage.xml"/>
-        <log type="junit" target="tests/log.xml" logIncompleteSkipped="false"/>
+        <log type="junit" target="tests/log.xml"/>
     </logging>
 </phpunit>
