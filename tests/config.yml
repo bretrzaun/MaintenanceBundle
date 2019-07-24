@@ -19,8 +19,8 @@ twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
     paths:
-        '%kernel.project_dir%/src/Resources/views/': MaintenanceBundle
-        '%kernel.project_dir%/tests/Resources/views/': ~
+        '%kernel.project_dir%/templates/': MaintenanceBundle
+        '%kernel.project_dir%/tests/templates/': ~
 
 maintenance:
     enabled: true
