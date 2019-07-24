@@ -2,6 +2,8 @@
 namespace BretRZaun\MaintenanceBundle\Tests;
 
 use BretRZaun\MaintenanceBundle\MaintenanceService;
+use DateTime;
+use Psr\Log\NullLogger;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use BretRZaun\MaintenanceBundle\EventListener\MaintenanceListener;
 use Symfony\Component\DependencyInjection\Container;
@@ -71,47 +73,57 @@ class MaintenanceListenerTest extends KernelTestCase
     {
         return [
             [
-                [], false
+                [],
+                false
             ],
             [
-                ['enabled' => true, 'template' => 'foo'], true,
+                ['enabled' => true, 'template' => 'foo'],
+                true,
             ],
             [
-                ['enabled' => false], false
+                ['enabled' => false],
+                false
             ],
-            # maintenance until tomorrow
+            'maintenance until tomorrow' =>
             [
-                ['enabled' => false, 'from' => '18.10.2018 00:00:00'], false,
-                ['currentDate' => new \DateTime('17.10.2018')]
+                ['enabled' => false, 'from' => '18.10.2018 00:00:00'],
+                false,
+                ['currentDate' => new DateTime('17.10.2018')]
             ],
-            # maintenance since yesterday
+            'maintenance since yesterday' =>
             [
-                ['enabled' => false, 'from' => '16.10.2018 00:00:00', 'template' => 'foo'], true,
-                ['currentDate' => new \DateTime('17.10.2018')]
+                ['enabled' => false, 'from' => '16.10.2018 00:00:00', 'template' => 'foo'],
+                true,
+                ['currentDate' => new DateTime('17.10.2018')]
             ],
-            # maintenance until tomorrow
+            'maintenance until tomorrow (with template)' =>
             [
-                ['enabled' => false, 'until' => '18.10.2018 00:00:00', 'template' => 'foo'], true,
-                ['currentDate' => new \DateTime('17.10.2018')]
+                ['enabled' => false, 'until' => '18.10.2018 00:00:00', 'template' => 'foo'],
+                true,
+                ['currentDate' => new DateTime('17.10.2018')]
             ],
-            # maintenance until yesterday
+            'maintenance until yesterday' =>
             [
-                ['enabled' => false, 'until' => '16.10.2018 00:00:00'], false,
-                ['currentDate' => new \DateTime('17.10.2018')]
+                ['enabled' => false, 'until' => '16.10.2018 00:00:00'],
+                false,
+                ['currentDate' => new DateTime('17.10.2018')]
             ],
-            # request from ip-range
+            'request from ip-range' =>
             [
-                ['enabled' => false, 'allowed_ip' => ['10.*.*.*']], false,
+                ['enabled' => false, 'allowed_ip' => ['10.*.*.*']],
+                false,
                 ['clientIp' => '10.0.0.1']
             ],
-            # request outside ip-range, but maintenance no enabled
+            'request outside ip-range, but maintenance not enabled' =>
             [
-                ['enabled' => false, 'allowed_ip' => ['10.*.*.*'], 'template' => 'foo'], false,
+                ['enabled' => false, 'allowed_ip' => ['10.*.*.*'], 'template' => 'foo'],
+                false,
                 ['clientIp' => '192.0.0.1']
             ],
-            # request outside ip-range, with maintenance enabled
+            'request outside ip-range, with maintenance enabled' =>
             [
-                ['enabled' => true, 'allowed_ip' => ['10.*.*.*'], 'template' => 'foo'], true,
+                ['enabled' => true, 'allowed_ip' => ['10.*.*.*'], 'template' => 'foo'],
+                true,
                 ['clientIp' => '192.0.0.1']
             ]
         ];

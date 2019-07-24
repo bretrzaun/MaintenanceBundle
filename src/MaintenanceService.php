@@ -1,27 +1,39 @@
 <?php
 namespace BretRZaun\MaintenanceBundle;
 
+use DateTime;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
+use RuntimeException;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 class MaintenanceService
 {
     /**
-     * @var \DateTime
+     * @var DateTime
      */
     private $currentDate;
     /**
      * @var ParameterBagInterface
      */
     private $parameterBag;
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
 
-    public function __construct(ParameterBagInterface $parameterBag)
+    public function __construct(ParameterBagInterface $parameterBag, LoggerInterface $logger = null)
     {
-        $this->setCurrentDate(new \DateTime('now'));
+        $this->setCurrentDate(new DateTime('now'));
         $this->parameterBag = $parameterBag;
+        $this->logger = $logger;
+        if ($this->logger === null) {
+            $this->logger = new NullLogger();
+        }
     }
 
-    public function setCurrentDate(\DateTime $date): void
+    public function setCurrentDate(DateTime $date): void
     {
         $this->currentDate = $date;
     }
@@ -34,24 +46,36 @@ class MaintenanceService
         if (!isset($maintenance['enabled']) || $maintenance['enabled'] === false) {
             // Datumsprüfung
             if (isset($maintenance['from'])) {
-                $from = \DateTime::createFromFormat('d.m.Y H:i:s', $maintenance['from']);
+                $from = DateTime::createFromFormat('d.m.Y H:i:s', $maintenance['from']);
                 if (!$from) {
-                    throw new \RuntimeException('Maintenance: invalid date format "from" (expects d.m.Y H:i:s)');
+                    throw new RuntimeException('Maintenance: invalid date format "from" (expects d.m.Y H:i:s)');
                 }
                 if ($from !== false && $from > $this->currentDate) {
                     return false;
                 }
-            } elseif (isset($maintenance['until'])) {
-                $until = \DateTime::createFromFormat('d.m.Y H:i:s', $maintenance['until']);
+                $this->logger->notice(
+                    'Maintenance mode is active since: ' . $from->format('d.m.Y H:i:s'),
+                    ['now' => $this->currentDate->format('d.m.Y H:i:s')]
+                );
+            }
+            if (isset($maintenance['until'])) {
+                $until = DateTime::createFromFormat('d.m.Y H:i:s', $maintenance['until']);
                 if (!$until) {
-                    throw new \RuntimeException('Maintenance: invalid date format "until" (expects d.m.Y H:i:s)');
+                    throw new RuntimeException('Maintenance: invalid date format "until" (expects d.m.Y H:i:s)');
                 }
                 if ($until === false || $this->currentDate > $until) {
                     return false;
                 }
-            } else {
+                $this->logger->notice(
+                    'Maintenance mode is active until: '.$until->format('d.m.Y H:i:s'),
+                    ['now' => $this->currentDate->format('d.m.Y H:i:s')]
+                );
+            }
+            if (!isset($maintenance['from']) && !isset($maintenance['until'])) {
                 return false;
             }
+        } else {
+            $this->logger->info('Maintenance mode is permanently enabled');
         }
         return true;
     }
