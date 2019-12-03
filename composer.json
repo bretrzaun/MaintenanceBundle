@@ -35,7 +35,6 @@
         "symfony/var-dumper": "^4.1"
     },
     "config": {
-        "secure-http": false,
         "platform": {
             "php": "7.1.3"
         }
