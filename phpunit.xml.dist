@@ -18,6 +18,7 @@
         <env name="KERNEL_CLASS" value="BretRZaun\MaintenanceBundle\Tests\AppKernel" />
         <env name="APP_ENV" value="test" />
         <env name="APP_DEBUG" value="1" />
+        <env name="SYMFONY_DEPRECATIONS_HELPER" value="max[self]=0"/>
     </php>
 
     <filter>
