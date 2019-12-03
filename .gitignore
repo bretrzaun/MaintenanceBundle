@@ -1,4 +1,7 @@
 vendor/
 cache/
 tests/log.xml
+tests/coverage.xml
 .idea/
+.phpunit.result.cache
+tests/report/
