@@ -45,11 +45,43 @@ class MaintenanceService
         // Manueller Schalter
         if (!isset($maintenance['enabled']) || $maintenance['enabled'] === false) {
             // Datumsprüfung
-            if (isset($maintenance['from'])) {
+            $from = null;
+            $until = null;
+            if (isset($maintenance['from'])) {    
                 $from = DateTime::createFromFormat('d.m.Y H:i:s', $maintenance['from']);
                 if (!$from) {
                     throw new RuntimeException('Maintenance: invalid date format "from" (expects d.m.Y H:i:s)');
                 }
+            }
+            if (isset($maintenance['until'])) {
+                $until = DateTime::createFromFormat('d.m.Y H:i:s', $maintenance['until']);
+                if (!$until) {
+                    throw new RuntimeException('Maintenance: invalid date format "until" (expects d.m.Y H:i:s)');
+                }
+            }
+            if ($from && $until) {
+                if ($from < $until) {
+                    if ($this->currentDate < $from || $this->currentDate > $until) {
+                        return false;
+                    }
+                    $this->logger->notice(
+                        'Maintenance mode is active from {from} to {until}: ',
+                        [
+                            'from' => $from->format('d.m.Y H:i:s'),
+                            'until' => $until->format('d.m.Y H:i:s'),
+                            'now' => $this->currentDate->format('d.m.Y H:i:s')
+                        ]
+                    );
+    
+                } else {
+                    if ($this->currentDate < $from && $this->currentDate > $until) {
+                        return false;
+                    } else {
+                        return true;
+                    }
+                }
+            }
+            if ($from) {
                 if ($from !== false && $from > $this->currentDate) {
                     return false;
                 }
@@ -58,11 +90,7 @@ class MaintenanceService
                     ['now' => $this->currentDate->format('d.m.Y H:i:s')]
                 );
             }
-            if (isset($maintenance['until'])) {
-                $until = DateTime::createFromFormat('d.m.Y H:i:s', $maintenance['until']);
-                if (!$until) {
-                    throw new RuntimeException('Maintenance: invalid date format "until" (expects d.m.Y H:i:s)');
-                }
+            if ($until) {
                 if ($until === false || $this->currentDate > $until) {
                     return false;
                 }

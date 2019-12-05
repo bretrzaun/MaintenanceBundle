@@ -80,6 +80,42 @@ class MaintenanceServiceTest extends KernelTestCase
                 false,
                 ['currentDate' => new DateTime('17.10.2018')]
             ],
+            'before closed maintenance' => 
+            [
+                ['enabled' => false, 'from' => '16.10.2018 08:00:00', 'until' => '16.10.2018 10:00:00'],
+                false,
+                ['currentDate' => new DateTime('16.10.2018 07:00:00')]
+            ],
+            'during closed maintenance' => 
+            [
+                ['enabled' => false, 'from' => '16.10.2018 08:00:00', 'until' => '16.10.2018 10:00:00'],
+                true,
+                ['currentDate' => new DateTime('16.10.2018 09:00:00')]
+            ],
+            'after closed maintenance' => 
+            [
+                ['enabled' => false, 'from' => '16.10.2018 08:00:00', 'until' => '16.10.2018 10:00:00'],
+                false,
+                ['currentDate' => new DateTime('16.10.2018 11:00:00')]
+            ],
+            'before open maintenance' => 
+            [
+                ['enabled' => false, 'until' => '16.10.2018 08:00:00', 'from' => '16.10.2018 10:00:00'],
+                true,
+                ['currentDate' => new DateTime('16.10.2018 07:00:00')]
+            ],
+            'during open maintenance' => 
+            [
+                ['enabled' => false, 'until' => '16.10.2018 08:00:00', 'from' => '16.10.2018 10:00:00'],
+                false,
+                ['currentDate' => new DateTime('16.10.2018 09:00:00')]
+            ],
+            'after open maintenance' => 
+            [
+                ['enabled' => false, 'until' => '16.10.2018 08:00:00', 'from' => '16.10.2018 10:00:00'],
+                true,
+                ['currentDate' => new DateTime('16.10.2018 11:00:00')]
+            ],            
             'request from ip-range' =>
             [
                 ['enabled' => false, 'allowed_ip' => ['10.*.*.*']],
