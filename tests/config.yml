@@ -18,6 +18,7 @@ twig:
     cache:            false
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
+    exception_controller: null
     paths:
         '%kernel.project_dir%/templates/': MaintenanceBundle
         '%kernel.project_dir%/tests/templates/': ~
