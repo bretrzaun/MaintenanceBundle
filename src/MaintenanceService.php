@@ -60,7 +60,7 @@ class MaintenanceService
                 }
             }
             if ($from && $until) {
-                if ($from < $until) {
+                if ($from <= $until) {
                     if ($this->currentDate < $from || $this->currentDate > $until) {
                         return false;
                     }
