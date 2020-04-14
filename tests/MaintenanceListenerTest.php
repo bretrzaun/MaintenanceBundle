@@ -9,7 +9,7 @@ use BretRZaun\MaintenanceBundle\EventListener\MaintenanceListener;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Twig\Environment;
 
@@ -55,7 +55,7 @@ class MaintenanceListenerTest extends KernelTestCase
           $server['REMOTE_ADDR'] = $context['clientIp'];
         }
         $request = new Request([], [], [], [] ,[], $server);
-        $event = new GetResponseEvent(self::$kernel, $request, HttpKernelInterface::MASTER_REQUEST);
+        $event = new RequestEvent(self::$kernel, $request, HttpKernelInterface::MASTER_REQUEST);
         $listener->onKernelRequest($event);
 
         $response = $event->getResponse();
