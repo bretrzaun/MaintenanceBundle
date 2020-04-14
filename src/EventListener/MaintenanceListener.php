@@ -5,6 +5,7 @@ use BretRZaun\MaintenanceBundle\MaintenanceService;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Twig\Environment;
 
@@ -27,7 +28,7 @@ class MaintenanceListener
         $this->maintenanceService = $maintenanceService;
     }
 
-    public function onKernelRequest(GetResponseEvent $event): void
+    public function onKernelRequest(RequestEvent $event): void
     {
         if ($event->getRequestType() !== HttpKernelInterface::MASTER_REQUEST) {
             return;
