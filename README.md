@@ -52,7 +52,7 @@ This can be done with like so:
     {% endif %}
 ```
 
-If the option "allowed_ip" is used, certain users can access the application even it is in maintennce mode.
+If the option "allowed_ip" is used, certain users can access the application even it is in maintenance mode.
 To make these users aware of this you can add the following to the layout template:
 
 ```
