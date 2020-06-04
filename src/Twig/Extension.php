@@ -4,6 +4,7 @@ namespace BretRZaun\MaintenanceBundle\Twig;
 use BretRZaun\MaintenanceBundle\MaintenanceService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Twig\TwigFunction;
 
 class Extension extends \Twig\Extension\AbstractExtension
 {
@@ -26,8 +27,8 @@ class Extension extends \Twig\Extension\AbstractExtension
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('maintenance_mode', [$this, 'maintenanceMode']),
-            new \Twig_SimpleFunction('maintenance_mode_allowed', [$this, 'maintenanceModeAllowed'])
+            new TwigFunction('maintenance_mode', [$this, 'maintenanceMode']),
+            new TwigFunction('maintenance_mode_allowed', [$this, 'maintenanceModeAllowed'])
         ];
     }
 
