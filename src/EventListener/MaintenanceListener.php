@@ -2,7 +2,7 @@
 namespace BretRZaun\MaintenanceBundle\EventListener;
 
 use BretRZaun\MaintenanceBundle\MaintenanceService;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
@@ -10,7 +10,7 @@ use Twig\Environment;
 
 class MaintenanceListener
 {
-    private $container;
+    private $parameters;
     /**
      * @var Environment
      */
@@ -20,9 +20,12 @@ class MaintenanceListener
      */
     private $maintenanceService;
 
-    public function __construct(ContainerInterface $container, Environment $twig, MaintenanceService $maintenanceService)
-    {
-        $this->container = $container;
+    public function __construct(
+        ParameterBagInterface $parameters,
+        Environment $twig,
+        MaintenanceService $maintenanceService
+    ) {
+        $this->parameters = $parameters;
         $this->twig = $twig;
         $this->maintenanceService = $maintenanceService;
     }
@@ -32,11 +35,10 @@ class MaintenanceListener
         if ($event->getRequestType() !== HttpKernelInterface::MASTER_REQUEST) {
             return;
         }
-
-        if (!$this->container->hasParameter('maintenance')) {
+        if (!$this->parameters->has('maintenance')) {
             return;
         }
-        $maintenance = $this->container->getParameter('maintenance');
+        $maintenance = $this->parameters->get('maintenance');
 
         if ($this->maintenanceService->isMaintenance() &&
             !$this->maintenanceService->isInternal($event->getRequest())) {

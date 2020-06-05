@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Twig\Environment;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 
 class MaintenanceListenerTest extends KernelTestCase
 {
@@ -27,14 +28,11 @@ class MaintenanceListenerTest extends KernelTestCase
      * @param array $context
      * @dataProvider parameterProvider
      */
-    public function testListener($parameters, bool $maintenance, array $context = []): void
+    public function testListener(array $parameters, bool $maintenance, array $context = []): void
     {
-        $container = new Container();
-        $container->set('kernel', self::$kernel);
+        $parameterBag = new ParameterBag(['maintenance' => $parameters]);
         $twig = $this->createMock(Environment::class);
         if ($parameters) {
-            $container->setParameter('maintenance', $parameters);
-
             if ($maintenance && isset($parameters['template'])) {
                 $twig->expects($this->once())
                     ->method('render')
@@ -44,12 +42,12 @@ class MaintenanceListenerTest extends KernelTestCase
             }
         }
 
-        $maintenanceService = new MaintenanceService($container->getParameterBag());
+        $maintenanceService = new MaintenanceService($parameterBag);
         if (isset($context['currentDate'])) {
             $maintenanceService->setCurrentDate($context['currentDate']);
         }
 
-        $listener = new MaintenanceListener($container, $twig, $maintenanceService);
+        $listener = new MaintenanceListener($parameterBag, $twig, $maintenanceService);
         $server = [];
         if (isset($context['clientIp'])) {
           $server['REMOTE_ADDR'] = $context['clientIp'];
