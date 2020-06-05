@@ -5,3 +5,4 @@ tests/coverage.xml
 .idea/
 .phpunit.result.cache
 tests/report/
+composer.lock
