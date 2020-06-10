@@ -1,7 +1,7 @@
 <?php
 namespace BretRZaun\MaintenanceBundle\Twig;
 
-use BretRZaun\MaintenanceBundle\MaintenanceService;
+use BretRZaun\MaintenanceBundle\MaintenanceServiceInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Twig\TwigFunction;
@@ -9,7 +9,7 @@ use Twig\TwigFunction;
 class Extension extends \Twig\Extension\AbstractExtension
 {
     /**
-     * @var MaintenanceService
+     * @var MaintenanceServiceInterface
      */
     private $maintenanceService;
 
@@ -18,7 +18,7 @@ class Extension extends \Twig\Extension\AbstractExtension
      */
     private $requestStack;
 
-    public function __construct(MaintenanceService $maintenanceService, RequestStack $requestStack)
+    public function __construct(MaintenanceServiceInterface $maintenanceService, RequestStack $requestStack)
     {
         $this->maintenanceService = $maintenanceService;
         $this->requestStack = $requestStack;

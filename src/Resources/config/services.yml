@@ -14,7 +14,8 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
 
-    BretRZaun\MaintenanceBundle\MaintenanceService: ~
+    BretRZaun\MaintenanceBundle\MaintenanceServiceInterface:
+        class: BretRZaun\MaintenanceBundle\MaintenanceService
 
     BretRZaun\MaintenanceBundle\Twig\Extension:
         tags:

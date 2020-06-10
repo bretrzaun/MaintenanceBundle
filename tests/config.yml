@@ -34,5 +34,5 @@ services:
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
         public: false       # Allows optimizing the container by removing unused services; this also means
 
-    BretRZaun\MaintenanceBundle\MaintenanceServiceInterface:
-        class: BretRZaun\MaintenanceBundle\MaintenanceService
+    #BretRZaun\MaintenanceBundle\MaintenanceServiceInterface:
+    #    class: BretRZaun\MaintenanceBundle\MaintenanceService
