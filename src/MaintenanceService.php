@@ -8,7 +8,7 @@ use RuntimeException;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-class MaintenanceService
+class MaintenanceService implements MaintenanceServiceInterface
 {
     /**
      * @var DateTime
