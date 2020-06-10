@@ -42,12 +42,11 @@ class MaintenanceService
     {
         $maintenance = $this->parameterBag->get('maintenance');
 
-        // Manueller Schalter
         if (!isset($maintenance['enabled']) || $maintenance['enabled'] === false) {
-            // Datumsprüfung
+            // date check
             $from = null;
             $until = null;
-            if (isset($maintenance['from'])) {    
+            if (isset($maintenance['from'])) {
                 $from = DateTime::createFromFormat('d.m.Y H:i:s', $maintenance['from']);
                 if (!$from) {
                     throw new RuntimeException('Maintenance: invalid date format "from" (expects d.m.Y H:i:s)');
@@ -72,7 +71,7 @@ class MaintenanceService
                             'now' => $this->currentDate->format('d.m.Y H:i:s')
                         ]
                     );
-    
+
                 } else {
                     if ($this->currentDate < $from && $this->currentDate > $until) {
                         return false;
@@ -109,7 +108,7 @@ class MaintenanceService
     }
 
     /**
-     * IP-Prüfung durchführen
+     * check for internal request
      *
      * @param Request|null $request
      * @return bool
