@@ -20,9 +20,6 @@ twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
     exception_controller: null
-    paths:
-        '%kernel.project_dir%/templates/': MaintenanceBundle
-        '%kernel.project_dir%/tests/templates/': ~
 
 maintenance:
     enabled: true
@@ -33,6 +30,3 @@ services:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
         public: false       # Allows optimizing the container by removing unused services; this also means
-
-    #BretRZaun\MaintenanceBundle\MaintenanceServiceInterface:
-    #    class: BretRZaun\MaintenanceBundle\MaintenanceService
