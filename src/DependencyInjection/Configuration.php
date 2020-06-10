@@ -32,7 +32,7 @@ class Configuration implements ConfigurationInterface
                     ->prototype('scalar')
                     ->end()
                 ->end()
-                ->scalarNode('template')->defaultValue('@MaintenanceBundle/maintenance.html.twig')->end()
+                ->scalarNode('template')->defaultValue('@Maintenance/maintenance.html.twig')->end()
             ->end()
         ;
 
