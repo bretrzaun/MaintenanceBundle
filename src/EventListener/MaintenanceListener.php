@@ -1,7 +1,7 @@
 <?php
 namespace BretRZaun\MaintenanceBundle\EventListener;
 
-use BretRZaun\MaintenanceBundle\MaintenanceService;
+use BretRZaun\MaintenanceBundle\MaintenanceServiceInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
@@ -23,7 +23,7 @@ class MaintenanceListener
     public function __construct(
         ParameterBagInterface $parameters,
         Environment $twig,
-        MaintenanceService $maintenanceService
+        MaintenanceServiceInterface $maintenanceService
     ) {
         $this->parameters = $parameters;
         $this->twig = $twig;
