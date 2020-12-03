@@ -7,4 +7,4 @@ php:
 install:
   composer install
 
-script: vendor/bin/simple-phpunit
+script: XDEBUG_MODE=coverage vendor/bin/simple-phpunit
