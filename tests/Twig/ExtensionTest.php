@@ -1,5 +1,5 @@
 <?php
-namespace BretRZaun\MaintenanceBundle\Tests;
+namespace BretRZaun\MaintenanceBundle\Tests\Twig;
 
 use BretRZaun\MaintenanceBundle\MaintenanceService;
 use BretRZaun\MaintenanceBundle\Twig\Extension;
