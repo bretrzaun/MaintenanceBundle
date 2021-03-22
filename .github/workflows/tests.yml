@@ -28,4 +28,4 @@ jobs:
           composer install --no-progress --prefer-dist --optimize-autoloader
           
       - name: Run Tests
-        run: php bin/phpunit
+        run: php vendor/bin/simple-phpunit
