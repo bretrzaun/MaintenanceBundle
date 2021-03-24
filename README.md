@@ -13,7 +13,7 @@ composer require bretrzaun/maintenance-bundle
 
 Register bundle in `config/bundles.php`:
 
-```
+```php
 \BretRZaun\MaintenanceBundle\MaintenanceBundle::class => ['all' => true]
 ```
 
@@ -21,7 +21,7 @@ Register bundle in `config/bundles.php`:
 
 Create the following configuration file
 
-```
+```yaml
 # config/packages/maintenance.yaml
 maintenance:
     enabled: false
@@ -46,7 +46,7 @@ The bundle has a default maintenance template (see `src/Resources/views/maintena
 You can use your own template (see configuration). In case your maintenance template extends from a parent layout
 you might want to exclude certain parts while in maintenance (e.g. a menu).
 This can be done with like so:
-```
+```twig
     {% if not maintenance_mode() %}
         ...
     {% endif %}
@@ -55,7 +55,7 @@ This can be done with like so:
 If the option "allowed_ip" is used, certain users can access the application even it is in maintenance mode.
 To make these users aware of this you can add the following to the layout template:
 
-```
+```twig
 {% if maintenance_mode_allowed() %}
     <div class="alert alert-warning">Maintenance mode is activated!</div>
 {% endif %}
