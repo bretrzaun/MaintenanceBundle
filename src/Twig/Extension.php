@@ -2,19 +2,15 @@
 namespace BretRZaun\MaintenanceBundle\Twig;
 
 use BretRZaun\MaintenanceBundle\MaintenanceServiceInterface;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Twig\TwigFunction;
 
 class Extension extends \Twig\Extension\AbstractExtension
 {
-    /**
-     * @var MaintenanceServiceInterface
-     */
-    private $maintenanceService;
+    private MaintenanceServiceInterface $maintenanceService;
 
     /**
-     * @var Request
+     * @var RequestStack
      */
     private $requestStack;
 

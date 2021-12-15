@@ -3,10 +3,8 @@ namespace BretRZaun\MaintenanceBundle\Tests;
 
 use BretRZaun\MaintenanceBundle\MaintenanceService;
 use DateTime;
-use Psr\Log\NullLogger;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use BretRZaun\MaintenanceBundle\EventListener\MaintenanceListener;
-use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
@@ -23,7 +21,7 @@ class MaintenanceListenerTest extends KernelTestCase
     }
 
     /**
-     * @param array|null $parameters
+     * @param array $parameters
      * @param bool $maintenance
      * @param array $context
      * @dataProvider parameterProvider

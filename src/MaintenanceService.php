@@ -10,26 +10,18 @@ use Symfony\Component\HttpFoundation\Request;
 
 class MaintenanceService implements MaintenanceServiceInterface
 {
-    /**
-     * @var DateTime
-     */
-    private $currentDate;
-    /**
-     * @var ParameterBagInterface
-     */
-    private $parameterBag;
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    private DateTime $currentDate;
+    private ParameterBagInterface $parameterBag;
+    private LoggerInterface $logger;
 
     public function __construct(ParameterBagInterface $parameterBag, LoggerInterface $logger = null)
     {
         $this->setCurrentDate(new DateTime('now'));
         $this->parameterBag = $parameterBag;
-        $this->logger = $logger;
-        if ($this->logger === null) {
+        if ($logger === null) {
             $this->logger = new NullLogger();
+        } else {
+            $this->logger = $logger;
         }
     }
 
@@ -128,7 +120,7 @@ class MaintenanceService implements MaintenanceServiceInterface
      * @param string|null $remoteIp
      * @return bool
      */
-    protected function matchIp($ipmask, $remoteIp): bool
+    protected function matchIp($ipmask, ?string $remoteIp): bool
     {
         if ($remoteIp === null) {
             return false;
