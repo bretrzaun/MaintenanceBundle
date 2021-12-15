@@ -21,6 +21,10 @@
         <env name="SYMFONY_DEPRECATIONS_HELPER" value="max[self]=0"/>
     </php>
 
+     <listeners>
+        <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener" />
+    </listeners>
+
     <filter>
         <whitelist>
             <directory>src</directory>
