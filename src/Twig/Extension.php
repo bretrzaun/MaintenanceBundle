@@ -24,7 +24,7 @@ class Extension extends \Twig\Extension\AbstractExtension
         $this->requestStack = $requestStack;
     }
 
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
             new TwigFunction('maintenance_mode', [$this, 'maintenanceMode']),
