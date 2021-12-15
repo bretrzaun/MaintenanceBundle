@@ -10,15 +10,9 @@ use Twig\Environment;
 
 class MaintenanceListener
 {
-    private $parameters;
-    /**
-     * @var Environment
-     */
-    private $twig;
-    /**
-     * @var MaintenanceService
-     */
-    private $maintenanceService;
+    private ParameterBagInterface $parameters;
+    private Environment $twig;
+    private MaintenanceServiceInterface $maintenanceService;
 
     public function __construct(
         ParameterBagInterface $parameters,
@@ -32,7 +26,7 @@ class MaintenanceListener
 
     public function onKernelRequest(RequestEvent $event): void
     {
-        if ($event->getRequestType() !== HttpKernelInterface::MASTER_REQUEST) {
+        if ($event->getRequestType() !== HttpKernelInterface::MAIN_REQUEST) {
             return;
         }
         if (!$this->parameters->has('maintenance')) {
