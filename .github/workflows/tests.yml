@@ -6,11 +6,11 @@ on:
 
 jobs:
   integration:
-    runs-on: Ubuntu-20.04
+    runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        php: ['7.3', '7.4', '8.0']
+        php: ['8.0', '8.1']
 
     steps:
       - name: Checkout
@@ -39,4 +39,4 @@ jobs:
         run: composer install --no-progress --prefer-dist --no-suggest --optimize-autoloader
 
       - name: Run Tests
-        run: php vendor/bin/simple-phpunit --verbose --coverage-text
+        run: php vendor/bin/phpunit --verbose --coverage-text

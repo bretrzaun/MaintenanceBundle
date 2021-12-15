@@ -18,7 +18,7 @@ class ExtensionTest extends TestCase
 
         $maintenanceService = $this->getMockBuilder(MaintenanceService::class)
             ->setConstructorArgs([$paramBag])
-            ->setMethods(['isMaintenance'])
+            ->onlyMethods(['isMaintenance'])
             ->getMock()
         ;
         $maintenanceService->expects($this->once())
