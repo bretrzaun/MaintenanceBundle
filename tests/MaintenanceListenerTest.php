@@ -51,7 +51,8 @@ class MaintenanceListenerTest extends KernelTestCase
           $server['REMOTE_ADDR'] = $context['clientIp'];
         }
         $request = new Request([], [], [], [] ,[], $server);
-        $event = new RequestEvent(self::$kernel, $request, HttpKernelInterface::MASTER_REQUEST);
+        $requestType = 1; # HttpKernelInterface::MASTER-/MAIN_REQUEST
+        $event = new RequestEvent(self::$kernel, $request, $requestType);
         $listener->onKernelRequest($event);
 
         $response = $event->getResponse();
