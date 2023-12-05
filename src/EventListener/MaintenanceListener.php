@@ -26,7 +26,7 @@ class MaintenanceListener
 
     public function onKernelRequest(RequestEvent $event): void
     {
-        if ($event->getRequestType() !== 1) { # HttpKernelInterface::MASTER-/MAIN_REQUEST
+        if ($event->getRequestType() !== HttpKernelInterface::MAIN_REQUEST) { 
             return;
         }
         if (!$this->parameters->has('maintenance')) {
