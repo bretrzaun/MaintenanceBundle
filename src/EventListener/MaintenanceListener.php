@@ -32,7 +32,7 @@ class MaintenanceListener
             $template = $this->twig->render($maintenance['template']);
 
             // We send our response with a 503 response code (service unavailable)
-            $event->setResponse(new Response($template, 503));
+            $event->setResponse(new Response($template, Response::HTTP_SERVICE_UNAVAILABLE));
             $event->stopPropagation();
         }
     }

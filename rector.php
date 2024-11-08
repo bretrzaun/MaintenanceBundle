@@ -12,7 +12,7 @@ return RectorConfig::configure()
     ])
     ->withImportNames(removeUnusedImports: true)
     ->withPhpSets(php81: true)
-    ->withPreparedSets(deadCode: true)
+    ->withPreparedSets(deadCode: true, symfonyCodeQuality: true)
     ->withAttributesSets(symfony: true, doctrine: true, phpunit: true)
     ->withSets([
         PHPUnitSetList::PHPUNIT_100
