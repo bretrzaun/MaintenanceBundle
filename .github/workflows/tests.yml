@@ -20,7 +20,7 @@ jobs:
         run: composer validate --strict
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@v4
         with:
           coverage: xdebug
           php-version: "${{ matrix.php }}"
@@ -28,7 +28,7 @@ jobs:
 
       - name: Cache Composer packages
         id: composer-cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: vendor
           key: ${{ runner.os }}-php-${{ hashFiles('**/composer.json') }}
@@ -39,4 +39,4 @@ jobs:
         run: composer install --no-progress --prefer-dist --no-suggest --optimize-autoloader
 
       - name: Run Tests
-        run: php vendor/bin/phpunit --verbose --coverage-text
+        run: php vendor/bin/phpunit --coverage-text
