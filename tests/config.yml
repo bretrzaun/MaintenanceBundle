@@ -3,8 +3,14 @@
 framework:
     test: ~
     secret: test
+    http_method_override: false
+    handle_all_throwables: true
+    php_errors:
+        log: true
     session:
-        storage_factory_id: session.storage.factory.mock_file
+        cookie_secure: auto
+        cookie_samesite: lax
+        handler_id: session.handler.native_file
     router:
         utf8: true
         resource: "%kernel.project_dir%/tests/routing.yml"
