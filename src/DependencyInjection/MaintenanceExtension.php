@@ -33,6 +33,6 @@ class MaintenanceExtension extends Extension
             return;
         }
         $path = __DIR__.'/../Resources/views';
-        $container->prependExtensionConfig('twig', array('paths' => array($path)));
+        $container->prependExtensionConfig('twig', ['paths' => [$path]]);
     }
 }

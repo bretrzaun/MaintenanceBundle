@@ -1,6 +1,7 @@
 <?php
 namespace BretRZaun\MaintenanceBundle\Tests;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use BretRZaun\MaintenanceBundle\MaintenanceService;
 use DateTime;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -10,12 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 class MaintenanceServiceTest extends KernelTestCase
 {
 
-    /**
-     * @param array $parameters
-     * @param bool $maintenance
-     * @param array $context
-     * @dataProvider parameterProvider
-     */
+    #[DataProvider('parameterProvider')]
     public function testService(array $parameters, bool $maintenance, array $context = []): void
     {
         $container = new Container();
@@ -41,7 +37,7 @@ class MaintenanceServiceTest extends KernelTestCase
         $this->assertEquals($maintenance, $result);
     }
 
-    public function parameterProvider(): array
+    public static function parameterProvider(): array
     {
         return [
             [

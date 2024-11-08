@@ -12,7 +12,7 @@ class AppKernel extends Kernel
 {
     public function registerBundles(): iterable
     {
-        $bundles = array();
+        $bundles = [];
         if ('test' === $this->getEnvironment()) {
             $bundles[] = new FrameworkBundle();
             $bundles[] = new TwigBundle();

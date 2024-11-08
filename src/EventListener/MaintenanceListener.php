@@ -10,18 +10,11 @@ use Twig\Environment;
 
 class MaintenanceListener
 {
-    private ParameterBagInterface $parameters;
-    private Environment $twig;
-    private MaintenanceServiceInterface $maintenanceService;
-
     public function __construct(
-        ParameterBagInterface $parameters,
-        Environment $twig,
-        MaintenanceServiceInterface $maintenanceService
+        private readonly ParameterBagInterface $parameters,
+        private readonly Environment $twig,
+        private readonly MaintenanceServiceInterface $maintenanceService
     ) {
-        $this->parameters = $parameters;
-        $this->twig = $twig;
-        $this->maintenanceService = $maintenanceService;
     }
 
     public function onKernelRequest(RequestEvent $event): void

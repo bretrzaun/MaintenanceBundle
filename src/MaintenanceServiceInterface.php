@@ -7,8 +7,6 @@ interface MaintenanceServiceInterface
 {
     /**
      * is maintenance mode active
-     *
-     * @return bool
      */
     public function isMaintenance(): bool;
 
@@ -16,7 +14,6 @@ interface MaintenanceServiceInterface
      * check for internal request
      *
      * @param Request|null $request
-     * @return bool
      */
     public function isInternal(Request $request = null): bool;
 }

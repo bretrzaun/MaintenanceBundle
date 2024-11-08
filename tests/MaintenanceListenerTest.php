@@ -1,6 +1,7 @@
 <?php
 namespace BretRZaun\MaintenanceBundle\Tests;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use BretRZaun\MaintenanceBundle\MaintenanceService;
 use DateTime;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -20,12 +21,7 @@ class MaintenanceListenerTest extends KernelTestCase
         static::bootKernel();
     }
 
-    /**
-     * @param array $parameters
-     * @param bool $maintenance
-     * @param array $context
-     * @dataProvider parameterProvider
-     */
+    #[DataProvider('parameterProvider')]
     public function testListener(array $parameters, bool $maintenance, array $context = []): void
     {
         $parameterBag = new ParameterBag(['maintenance' => $parameters]);
@@ -65,7 +61,7 @@ class MaintenanceListenerTest extends KernelTestCase
         }
     }
 
-    public function parameterProvider(): array
+    public static function parameterProvider(): array
     {
         return [
             [

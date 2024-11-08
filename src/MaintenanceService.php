@@ -11,13 +11,11 @@ use Symfony\Component\HttpFoundation\Request;
 class MaintenanceService implements MaintenanceServiceInterface
 {
     private DateTime $currentDate;
-    private ParameterBagInterface $parameterBag;
     private LoggerInterface $logger;
 
-    public function __construct(ParameterBagInterface $parameterBag, LoggerInterface $logger = null)
+    public function __construct(private readonly ParameterBagInterface $parameterBag, LoggerInterface $logger = null)
     {
         $this->setCurrentDate(new DateTime('now'));
-        $this->parameterBag = $parameterBag;
         if ($logger === null) {
             $this->logger = new NullLogger();
         } else {
@@ -103,7 +101,6 @@ class MaintenanceService implements MaintenanceServiceInterface
      * check for internal request
      *
      * @param Request|null $request
-     * @return bool
      */
     public function isInternal(Request $request = null): bool
     {
@@ -117,8 +114,6 @@ class MaintenanceService implements MaintenanceServiceInterface
      * check an IP-mask (including wildcards) with an ip address
      *
      * @param string|array $ipmask
-     * @param string|null $remoteIp
-     * @return bool
      */
     protected function matchIp($ipmask, ?string $remoteIp): bool
     {
