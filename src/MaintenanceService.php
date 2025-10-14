@@ -13,8 +13,10 @@ class MaintenanceService implements MaintenanceServiceInterface
     private DateTime $currentDate;
     private LoggerInterface $logger;
 
-    public function __construct(private readonly ParameterBagInterface $parameterBag, LoggerInterface $logger = null)
-    {
+    public function __construct(
+        private readonly ParameterBagInterface $parameterBag,
+        ?LoggerInterface $logger = null
+    ) {
         $this->setCurrentDate(new DateTime('now'));
         if ($logger === null) {
             $this->logger = new NullLogger();
@@ -71,7 +73,7 @@ class MaintenanceService implements MaintenanceServiceInterface
                 }
             }
             if ($from) {
-                if ($from !== false && $from > $this->currentDate) {
+                if ($from > $this->currentDate) {
                     return false;
                 }
                 $this->logger->notice(
@@ -80,7 +82,7 @@ class MaintenanceService implements MaintenanceServiceInterface
                 );
             }
             if ($until) {
-                if ($until === false || $this->currentDate > $until) {
+                if ($this->currentDate > $until) {
                     return false;
                 }
                 $this->logger->notice(
@@ -102,7 +104,7 @@ class MaintenanceService implements MaintenanceServiceInterface
      *
      * @param Request|null $request
      */
-    public function isInternal(Request $request = null): bool
+    public function isInternal(?Request $request = null): bool
     {
         $maintenance = $this->parameterBag->get('maintenance');
         return $request &&

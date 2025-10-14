@@ -15,5 +15,5 @@ interface MaintenanceServiceInterface
      *
      * @param Request|null $request
      */
-    public function isInternal(Request $request = null): bool;
+    public function isInternal(?Request $request = null): bool;
 }
