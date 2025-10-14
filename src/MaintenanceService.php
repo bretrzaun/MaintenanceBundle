@@ -101,8 +101,6 @@ class MaintenanceService implements MaintenanceServiceInterface
 
     /**
      * check for internal request
-     *
-     * @param Request|null $request
      */
     public function isInternal(?Request $request = null): bool
     {
