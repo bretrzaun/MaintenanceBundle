@@ -4,6 +4,7 @@
      backupGlobals="false"
      colors="true"
      displayDetailsOnPhpunitDeprecations="true"
+     displayDetailsOnTestsThatTriggerDeprecations="true"
      bootstrap="vendor/autoload.php">
   <source>
     <include>
