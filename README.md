@@ -26,8 +26,12 @@ Create the following configuration file
 maintenance:
     enabled: false
     template: 'maintenance.html.twig'
-    #from: 01.12.2018 00:00:01
-    #until: 03.12.2018 00:00:01
+
+    # Maintenance window start
+    from: 2018-12-01 00:00:00
+
+    # Maintenance window end
+    until: 2018-12-03 00:00:00
     
     # IP addresses allowed to access during maintenance
     # Supports:
