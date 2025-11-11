@@ -21,6 +21,7 @@
     },
     "require": {
         "php": ">=8.1",
+        "symfony/http-foundation": "^6.0||^7.0",
         "symfony/yaml": "^6.0||^7.0",
         "twig/twig": "^3.0"
     },

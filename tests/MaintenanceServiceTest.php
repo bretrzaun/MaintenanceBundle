@@ -1,9 +1,9 @@
 <?php
 namespace BretRZaun\MaintenanceBundle\Tests;
 
-use PHPUnit\Framework\Attributes\DataProvider;
 use BretRZaun\MaintenanceBundle\MaintenanceService;
 use DateTime;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpFoundation\Request;
@@ -147,7 +147,29 @@ class MaintenanceServiceTest extends KernelTestCase
                 ['enabled' => false, 'from' => '18.10.2018 00:00:00', 'until' => '19.10.2018 00:00:00'],
                 false,
                 ['currentDate' => new DateTime('20.10.2018')]
-            ]
+            ],
+            // CIDR notation support
+            'request from CIDR range' => [
+                ['enabled' => true, 'allowed_ip' => ['192.168.1.0/24'], 'template' => 'foo'],
+                false,
+                ['clientIp' => '192.168.1.100']
+            ],
+            'request outside CIDR range' => [
+                ['enabled' => true, 'allowed_ip' => ['192.168.1.0/24'], 'template' => 'foo'],
+                true,
+                ['clientIp' => '192.168.2.100']
+            ],
+            // Exact IP match
+            'exact IP match' => [
+                ['enabled' => true, 'allowed_ip' => ['203.0.113.42'], 'template' => 'foo'],
+                false,
+                ['clientIp' => '203.0.113.42']
+            ],
+            'exact IP no match' => [
+                ['enabled' => true, 'allowed_ip' => ['203.0.113.42'], 'template' => 'foo'],
+                true,
+                ['clientIp' => '203.0.113.43']
+            ],
         ];
     }
 }

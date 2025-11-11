@@ -6,6 +6,7 @@ use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 use RuntimeException;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\HttpFoundation\IpUtils;
 use Symfony\Component\HttpFoundation\Request;
 
 class MaintenanceService implements MaintenanceServiceInterface
@@ -111,25 +112,24 @@ class MaintenanceService implements MaintenanceServiceInterface
     }
 
     /**
-     * check an IP-mask (including wildcards) with an ip address
+     * Check if an IP address matches against a list of IP masks.
      *
-     * @param string|array $ipmask
+     * Supports:
+     * - Wildcards: 10.*.*.* or 192.168.*.*
+     * - CIDR notation: 192.168.1.0/24
+     * - IPv6: 2001:db8::/32
+     * - Exact IPs: 192.168.1.1
+     *
+     * @param string|array<string> $ipmask Single IP mask or array of IP masks
+     * @param string|null $remoteIp The IP address to check
+     * @return bool True if IP matches any mask, false otherwise
      */
-    protected function matchIp($ipmask, ?string $remoteIp): bool
+    protected function matchIp(string|array $ipmask, ?string $remoteIp): bool
     {
         if ($remoteIp === null) {
             return false;
         }
-        if (\is_string($ipmask)) {
-            $ipmask = [$ipmask];
-        }
-        foreach ($ipmask as $entry) {
-            $pattern = '/^' . str_replace(['*', '.'], ['[0-9]{1,3}', '\.'], $entry) . '$/';
-            preg_match($pattern, $remoteIp, $matches);
-            if (\count($matches) > 0) {
-                return true;
-            }
-        }
-        return false;
+
+        return IpUtils::checkIp($remoteIp, (array) $ipmask);
     }
 }

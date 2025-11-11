@@ -28,7 +28,18 @@ maintenance:
     template: 'maintenance.html.twig'
     #from: 01.12.2018 00:00:01
     #until: 03.12.2018 00:00:01
-    allowed_ip: ['10.*.*.*']
+    
+    # IP addresses allowed to access during maintenance
+    # Supports:
+    # - Wildcards: 10.*.*.* or 192.168.*.*
+    # - CIDR notation: 192.168.1.0/24
+    # - IPv6: 2001:db8::/32
+    # - Exact IPs: 192.168.1.1
+    allowed_ip:
+      - '10.*.*.*'           # All 10.x.x.x IPs
+      - '192.168.1.0/24'     # Entire /24 network
+      - '2001:db8::/32'      # IPv6 network
+      - '203.0.113.42'       # Single IP
 ```
 
 ### Options
