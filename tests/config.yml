@@ -25,7 +25,6 @@ twig:
     cache:            false
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
-    exception_controller: null
 
 maintenance:
     enabled: true
